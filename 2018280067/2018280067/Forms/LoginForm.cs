@@ -27,6 +27,17 @@ namespace _2018280067.Forms
 
 		private void BtnSubmit_Click(object sender, EventArgs e)
 		{
+
+			using (AccountForm accountForm = new AccountForm())
+			{
+				InputAccountId.Text = "326785";
+				accountForm.UserId = InputAccountId.Text;
+				accountForm.Show();
+			}
+			this.Hide();
+
+			return;
+
 			if (InputAccountId.Text.Length < 1) return;
 			if (InputAccountPassword.Text.Length < 1) return;
 
@@ -54,12 +65,21 @@ namespace _2018280067.Forms
 				TextError.Text = "Hatalı Hesap no veya Parola";
 				TextError.Visible = true;
 			}
+
 			else
 			{
-				TextError.Visible = false;
+				TextError.Visible = false; 
+				loginAttemptCount = 0;
+				LoginAttemptTimer.Stop();
+
+				using (AccountForm accountForm = new AccountForm())
+				{
+					accountForm.Show();
+					accountForm.UserId = InputAccountId.Text;
+				}	
+				this.Hide();
 			}
 		}
-
 
 		private void InputAccountPassword_TextChanged(object sender, EventArgs e)
 		{
@@ -89,6 +109,7 @@ namespace _2018280067.Forms
 			else
 			{
 				errorProvider1.Clear();
+				
 			}
 		}
 	

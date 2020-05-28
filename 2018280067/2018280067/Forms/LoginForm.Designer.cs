@@ -119,7 +119,7 @@
 			// 
 			// LoginAttemptTimer
 			// 
-			this.LoginAttemptTimer.Interval = 5000;
+			this.LoginAttemptTimer.Interval = 300000;
 			// 
 			// TextRemainingAttempt
 			// 
