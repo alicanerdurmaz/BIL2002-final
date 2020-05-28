@@ -54,8 +54,16 @@ namespace _2018280067.Utils
         private static bool VerifyHash(string generatedHash, string accountId)
         {
             string hashFromDb = "";
+            string[] lines = { };
 
-            string[] lines = File.ReadAllLines(@"C:\final\auth.txt");
+			try
+			{
+                lines = File.ReadAllLines(@"C:\final\auth.txt");
+            }
+			catch (Exception e)
+			{
+                Debug.WriteLine(e.Message);
+			}
 
             foreach (string line in lines)
             {   

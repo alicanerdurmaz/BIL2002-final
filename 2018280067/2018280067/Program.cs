@@ -15,10 +15,13 @@ namespace _2018280067
 		[STAThread]
 		static void Main()
 		{
-			
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			CreateTestData.CreateTestCustomers();
+
+			CreateTestData startupFunctions = new CreateTestData();
+			startupFunctions.CreateTestCustomers();
+			startupFunctions.ResetLockedAccounts();
+
 			Application.Run(new LoginForm());
 		}
 	}

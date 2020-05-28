@@ -38,6 +38,7 @@
 			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
 			this.TextError = new System.Windows.Forms.TextBox();
 			this.LoginAttemptTimer = new System.Windows.Forms.Timer(this.components);
+			this.TextRemainingAttempt = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -80,7 +81,7 @@
 			// 
 			// BtnSubmit
 			// 
-			this.BtnSubmit.Location = new System.Drawing.Point(12, 215);
+			this.BtnSubmit.Location = new System.Drawing.Point(12, 226);
 			this.BtnSubmit.Name = "BtnSubmit";
 			this.BtnSubmit.Size = new System.Drawing.Size(134, 38);
 			this.BtnSubmit.TabIndex = 4;
@@ -90,7 +91,7 @@
 			// 
 			// BtnExit
 			// 
-			this.BtnExit.Location = new System.Drawing.Point(430, 215);
+			this.BtnExit.Location = new System.Drawing.Point(430, 226);
 			this.BtnExit.Name = "BtnExit";
 			this.BtnExit.Size = new System.Drawing.Size(156, 38);
 			this.BtnExit.TabIndex = 5;
@@ -120,11 +121,21 @@
 			// 
 			this.LoginAttemptTimer.Interval = 5000;
 			// 
+			// TextRemainingAttempt
+			// 
+			this.TextRemainingAttempt.Location = new System.Drawing.Point(228, 236);
+			this.TextRemainingAttempt.Name = "TextRemainingAttempt";
+			this.TextRemainingAttempt.Size = new System.Drawing.Size(134, 20);
+			this.TextRemainingAttempt.TabIndex = 7;
+			this.TextRemainingAttempt.Text = "Kalan Deneme Hakkı: 3";
+			this.TextRemainingAttempt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// LoginForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(598, 276);
+			this.Controls.Add(this.TextRemainingAttempt);
 			this.Controls.Add(this.TextError);
 			this.Controls.Add(this.BtnExit);
 			this.Controls.Add(this.BtnSubmit);
@@ -152,5 +163,6 @@
 		private System.Windows.Forms.ErrorProvider errorProvider1;
 		private System.Windows.Forms.TextBox TextError;
 		private System.Windows.Forms.Timer LoginAttemptTimer;
+		private System.Windows.Forms.TextBox TextRemainingAttempt;
 	}
 }

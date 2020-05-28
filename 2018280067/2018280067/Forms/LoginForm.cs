@@ -30,9 +30,8 @@ namespace _2018280067.Forms
 			if (InputAccountId.Text.Length < 1) return;
 			if (InputAccountPassword.Text.Length < 1) return;
 
-			bool isLocked = CheckAccountIsLocked(InputAccountId.Text);
-			if (isLocked) return;
-
+			if(CheckAccountIsLocked(InputAccountId.Text)) return;
+		
 			bool result = CreateHashAndValidate.CheckPassword(InputAccountPassword.Text, InputAccountId.Text);
 
 			if (!result)
@@ -51,6 +50,7 @@ namespace _2018280067.Forms
 				}
 
 				loginAttemptCount++;
+				TextRemainingAttempt.Text = $"Kalan deneme hakkı:{3 - loginAttemptCount}";
 				TextError.Text = "Hatalı Hesap no veya Parola";
 				TextError.Visible = true;
 			}
@@ -110,18 +110,38 @@ namespace _2018280067.Forms
 
 		private bool CheckAccountIsLocked(string accountId)
 		{
-			string[] lines = File.ReadAllLines(@"C:\final\lockedAccounts.txt");
+			string[] lines = {""};
+
+			try
+			{
+				lines = File.ReadAllLines(@"C:\final\lockedAccounts.txt");
+			}
+			catch (Exception e)
+			{
+				TextError.Text = e.Message;
+				TextError.Visible = true;
+				Debug.WriteLine(e);
+			}
+	
 
 			DateTime currentTime = DateTime.Now;
-
 			foreach (string line in lines)
 			{
 				string[] lineParse = line.Split(',');
 		
 				if (lineParse[0].Equals(accountId))
 				{
-					int result = DateTime.Compare(currentTime, Convert.ToDateTime(lineParse[1]));
-					
+					int result = 0;
+					try
+					{
+						result = DateTime.Compare(currentTime, DateTime.Parse(lineParse[1]));
+					}
+					catch (Exception e)
+					{
+
+						Debug.WriteLine(e.Message);
+					}
+				
 					if(result < 0)
 					{
 						string errorMessage = $"Hesabınız kilitlendi. Lütfen 24 saat sonra tekrar deneyiniz.";
@@ -151,5 +171,7 @@ namespace _2018280067.Forms
 			loginAttemptCount = 0;
 			LoginAttemptTimer.Stop();
 		}
+
+		
 	}
 }

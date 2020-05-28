@@ -8,10 +8,27 @@ using System.Threading.Tasks;
 
 namespace _2018280067
 {
-	public static class CreateTestData
+	public class CreateTestData
 	{
+		public void CreateTestCustomers()
+		{
+			Customer ismailBorazan = new Customer("326785", "İsmail Borozan", "IsmB1982", "TR610003200013900000326785", 350.00, "TR300003200016420000326785", 8000.00, null, 0);
+			Customer kamileHursitgilogullari = new Customer("400129", "Kamile Hurşitgiloğulları", "12Hrst34", "TR610008324560000000400129", 2980.45, null, 0, null, 0);
+			Customer zebercetBak = new Customer("388000", "Zebercet  Bak", "Zb123456", "TR610007222250001200388000", 19150.00, "TR300007222249000001388000", 52.93, "TR300008222266600002388000", 2850.00);
+			Customer nazliGulUcan = new Customer("201005", "Naz  Gül  Uçan", "Mordor99", "TR610032455466661200201005", 666.66, null, 0, "TR300032455410080003201005", 10000.00);
 
-		private static void CreateClientTxt(List<Customer> customerList)
+			List<Customer> customerList = new List<Customer>
+			{
+				ismailBorazan,
+				kamileHursitgilogullari,
+				zebercetBak,
+				nazliGulUcan
+			};
+
+			CreateClientTxt(customerList);
+		}
+
+		private void CreateClientTxt(List<Customer> customerList)
 		{
 			try
 			{
@@ -38,22 +55,63 @@ namespace _2018280067
 			}
 		}
 
-		public static void CreateTestCustomers()
+		public void ResetLockedAccounts()
 		{
-			Customer ismailBorazan = new Customer("326785", "İsmail Borozan", "IsmB1982", "TR610003200013900000326785", 350.00, "TR300003200016420000326785", 8000.00, null, 0);
-			Customer kamileHursitgilogullari = new Customer("400129", "Kamile Hurşitgiloğulları", "12Hrst34", "TR610008324560000000400129", 2980.45, null, 0, null, 0);
-			Customer zebercetBak = new Customer("388000", "Zebercet  Bak", "Zb123456", "TR610007222250001200388000", 19150.00, "TR300007222249000001388000", 52.93, "TR300008222266600002388000", 2850.00);
-			Customer nazliGulUcan = new Customer("201005", "Naz  Gül  Uçan", "Mordor99", "TR610032455466661200201005", 666.66, null, 0, "TR300032455410080003201005", 10000.00);
+			string[] lines = { "" };
 
-			List<Customer> customerList = new List<Customer>
+			try
 			{
-				ismailBorazan,
-				kamileHursitgilogullari,
-				zebercetBak,
-				nazliGulUcan
-			};
+				lines = File.ReadAllLines(@"C:\final\lockedAccounts.txt");
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+			}
+			DateTime currentTime = DateTime.Now;
 
-			CreateClientTxt(customerList);
+			int i = 0;
+			foreach (var line in lines)
+			{
+				string[] lineParse = line.Split(',');
+
+				int result = 0;
+				try
+				{
+					result = DateTime.Compare(currentTime, DateTime.Parse(lineParse[1]));
+				}
+				catch (Exception e)
+				{
+
+					Debug.WriteLine(e.Message);
+				}
+
+				if (result > 0)
+				{
+					lines[i] = null;
+					
+				}
+				i++;
+			}
+			try
+			{
+				using (StreamWriter file =
+				new StreamWriter(@"C:\final\lockedAccounts.txt", false))
+				{
+					foreach (var line in lines)
+					{
+						Debug.WriteLine(line);
+						if (line != null)
+						{
+							file.WriteLine(line);
+						}
+					}
+				}
+
+			}
+			catch (Exception error)
+			{
+				Debug.WriteLine(error.Message);
+			}
 		}
 	}
 }
