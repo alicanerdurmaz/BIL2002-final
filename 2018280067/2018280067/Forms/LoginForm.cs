@@ -1,20 +1,18 @@
 ﻿using _2018280067.Utils;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
 
 namespace _2018280067.Forms
 {
 	public partial class LoginForm : Form
 	{
+		private uint loginAttemptCount = 0;
+
+
 		public LoginForm()
 		{
 			InitializeComponent();
@@ -23,19 +21,45 @@ namespace _2018280067.Forms
 	
 		private void LoginForm_Load(object sender, EventArgs e)
 		{
-
+			TextError.Visible = false;
+			LoginAttemptTimer.Tick += new EventHandler(TimerEventProcessor);
 		}
 
 		private void BtnSubmit_Click(object sender, EventArgs e)
 		{
+			if (InputAccountId.Text.Length < 1) return;
+			if (InputAccountPassword.Text.Length < 1) return;
+
+			bool isLocked = CheckAccountIsLocked(InputAccountId.Text);
+			if (isLocked) return;
+
 			bool result = CreateHashAndValidate.CheckPassword(InputAccountPassword.Text, InputAccountId.Text);
-			Debug.WriteLine(result);
+
+			if (!result)
+			{
+				if (!LoginAttemptTimer.Enabled)
+				{
+					LoginAttemptTimer.Start();
+				}
+
+				if(loginAttemptCount >= 3)
+				{
+					TextError.Text = "Hesabınız kilitlendi. Lütfen 24 saat sonra tekrar deneyiniz";
+					TextError.Visible = true;
+					SaveLockedAccount(InputAccountId.Text);
+					return;
+				}
+
+				loginAttemptCount++;
+				TextError.Text = "Hatalı Hesap no veya Parola";
+				TextError.Visible = true;
+			}
+			else
+			{
+				TextError.Visible = false;
+			}
 		}
 
-		private void BtnExit_Click(object sender, EventArgs e)
-		{
-			Application.Exit();
-		}
 
 		private void InputAccountPassword_TextChanged(object sender, EventArgs e)
 		{
@@ -67,6 +91,65 @@ namespace _2018280067.Forms
 				errorProvider1.Clear();
 			}
 		}
+	
+		private void SaveLockedAccount(string accountId)
+		{
+			try
+			{
+				using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\final\lockedAccounts.txt", true))
+				{
+					DateTime now = DateTime.Now;
+					file.WriteLine($"{accountId},{now.AddHours(24)}");
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+			}
+		}
 
+		private bool CheckAccountIsLocked(string accountId)
+		{
+			string[] lines = File.ReadAllLines(@"C:\final\lockedAccounts.txt");
+
+			DateTime currentTime = DateTime.Now;
+
+			foreach (string line in lines)
+			{
+				string[] lineParse = line.Split(',');
+		
+				if (lineParse[0].Equals(accountId))
+				{
+					int result = DateTime.Compare(currentTime, Convert.ToDateTime(lineParse[1]));
+					
+					if(result < 0)
+					{
+						string errorMessage = $"Hesabınız kilitlendi. Lütfen 24 saat sonra tekrar deneyiniz.";
+						errorMessage += Environment.NewLine;
+						errorMessage += $"Hesabın açılacağı tarih: {lineParse[1]}";
+						TextError.Text = errorMessage;
+						TextError.Visible = true;
+						return true;
+					}
+					if (result > 0)
+					{
+						return false;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		private void BtnExit_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
+		{
+			loginAttemptCount = 0;
+			LoginAttemptTimer.Stop();
+		}
 	}
 }

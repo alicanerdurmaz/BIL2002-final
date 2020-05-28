@@ -71,8 +71,6 @@ namespace _2018280067.Utils
             // Create a StringComparer an compare the hashes.
             StringComparer comparer = StringComparer.OrdinalIgnoreCase;
 
-            Debug.WriteLine(hashFromDb, generatedHash);
-
             return comparer.Compare(hashFromDb, generatedHash) == 0;
         }
     }

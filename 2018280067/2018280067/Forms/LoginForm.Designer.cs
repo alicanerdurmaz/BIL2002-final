@@ -36,12 +36,14 @@
 			this.BtnSubmit = new System.Windows.Forms.Button();
 			this.BtnExit = new System.Windows.Forms.Button();
 			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+			this.TextError = new System.Windows.Forms.TextBox();
+			this.LoginAttemptTimer = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// InputAccountId
 			// 
-			this.InputAccountId.Location = new System.Drawing.Point(98, 25);
+			this.InputAccountId.Location = new System.Drawing.Point(179, 41);
 			this.InputAccountId.MaxLength = 6;
 			this.InputAccountId.Name = "InputAccountId";
 			this.InputAccountId.Size = new System.Drawing.Size(241, 20);
@@ -50,7 +52,7 @@
 			// 
 			// InputAccountPassword
 			// 
-			this.InputAccountPassword.Location = new System.Drawing.Point(98, 77);
+			this.InputAccountPassword.Location = new System.Drawing.Point(179, 98);
 			this.InputAccountPassword.MaxLength = 8;
 			this.InputAccountPassword.Name = "InputAccountPassword";
 			this.InputAccountPassword.PasswordChar = '*';
@@ -61,7 +63,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(98, 9);
+			this.label1.Location = new System.Drawing.Point(176, 25);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(55, 13);
 			this.label1.TabIndex = 2;
@@ -70,7 +72,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(98, 61);
+			this.label2.Location = new System.Drawing.Point(176, 82);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(37, 13);
 			this.label2.TabIndex = 3;
@@ -78,7 +80,7 @@
 			// 
 			// BtnSubmit
 			// 
-			this.BtnSubmit.Location = new System.Drawing.Point(12, 161);
+			this.BtnSubmit.Location = new System.Drawing.Point(12, 215);
 			this.BtnSubmit.Name = "BtnSubmit";
 			this.BtnSubmit.Size = new System.Drawing.Size(134, 38);
 			this.BtnSubmit.TabIndex = 4;
@@ -88,7 +90,7 @@
 			// 
 			// BtnExit
 			// 
-			this.BtnExit.Location = new System.Drawing.Point(261, 161);
+			this.BtnExit.Location = new System.Drawing.Point(430, 215);
 			this.BtnExit.Name = "BtnExit";
 			this.BtnExit.Size = new System.Drawing.Size(156, 38);
 			this.BtnExit.TabIndex = 5;
@@ -100,11 +102,30 @@
 			// 
 			this.errorProvider1.ContainerControl = this;
 			// 
+			// TextError
+			// 
+			this.TextError.BackColor = System.Drawing.SystemColors.Window;
+			this.TextError.Enabled = false;
+			this.TextError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.TextError.ForeColor = System.Drawing.Color.DarkRed;
+			this.TextError.Location = new System.Drawing.Point(12, 150);
+			this.TextError.Multiline = true;
+			this.TextError.Name = "TextError";
+			this.TextError.ReadOnly = true;
+			this.TextError.Size = new System.Drawing.Size(574, 50);
+			this.TextError.TabIndex = 6;
+			this.TextError.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// LoginAttemptTimer
+			// 
+			this.LoginAttemptTimer.Interval = 5000;
+			// 
 			// LoginForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(429, 211);
+			this.ClientSize = new System.Drawing.Size(598, 276);
+			this.Controls.Add(this.TextError);
 			this.Controls.Add(this.BtnExit);
 			this.Controls.Add(this.BtnSubmit);
 			this.Controls.Add(this.label2);
@@ -129,5 +150,7 @@
 		private System.Windows.Forms.Button BtnSubmit;
 		private System.Windows.Forms.Button BtnExit;
 		private System.Windows.Forms.ErrorProvider errorProvider1;
+		private System.Windows.Forms.TextBox TextError;
+		private System.Windows.Forms.Timer LoginAttemptTimer;
 	}
 }
