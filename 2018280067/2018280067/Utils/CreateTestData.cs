@@ -61,6 +61,11 @@ namespace _2018280067
 
 		public void ResetLockedAccounts()
 		{
+			// ilk önce tüm lockedAccounts.txt'yi okuyorum ve lines'a atıyorum.
+			// lines'ı tek tek kontrol edip tarihi geçenleri null olarak işaretliyorum.
+			// sonra lockedAccounts.txt'yi silip, lines'dan null olmayanları txt'ye yazıyorum.
+			// yöntemi beğenmedim ama daha iyi henüz aklıma gelmedi.
+
 			string[] lines = { "" };
 
 			try
