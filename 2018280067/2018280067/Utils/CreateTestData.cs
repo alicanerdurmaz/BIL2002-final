@@ -108,7 +108,6 @@ namespace _2018280067
 				{
 					foreach (var line in lines)
 					{
-						Debug.WriteLine(line);
 						if (line != null)
 						{
 							file.WriteLine(line);

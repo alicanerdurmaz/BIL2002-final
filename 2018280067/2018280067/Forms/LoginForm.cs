@@ -31,6 +31,7 @@ namespace _2018280067.Forms
 			AccountForm accountForm = new AccountForm();
 			InputAccountId.Text = "326785";
 			accountForm.AccountId = InputAccountId.Text;
+			accountForm.LoginFormRef = this;
 			accountForm.Show();
 			
 			this.Hide();
@@ -88,11 +89,11 @@ namespace _2018280067.Forms
 
 			if (!result)
 			{
-				errorProvider1.SetError(InputAccountPassword, "Şifre sadece büyük, küçük harf ve rakam içerebilir.Boşluk olamaz");
+				ErrorProvider.SetError(InputAccountPassword, "Şifre sadece büyük, küçük harf ve rakam içerebilir.Boşluk olamaz");
 			}
 			else
 			{
-				errorProvider1.Clear();
+				ErrorProvider.Clear();
 			}
 		}
 
@@ -103,11 +104,11 @@ namespace _2018280067.Forms
 
 			if (!result)
 			{
-				errorProvider1.SetError(InputAccountId, "Hesap no sadece rakam içerebilir");
+				ErrorProvider.SetError(InputAccountId, "Hesap no sadece rakam içerebilir");
 			}
 			else
 			{
-				errorProvider1.Clear();
+				ErrorProvider.Clear();
 				
 			}
 		}

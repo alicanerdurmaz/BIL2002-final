@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.TextWelcome = new System.Windows.Forms.Label();
 			this.TextIbanTr = new System.Windows.Forms.Label();
@@ -47,6 +48,9 @@
 			this.TextAmountUsd = new System.Windows.Forms.Label();
 			this.BtnEFT = new System.Windows.Forms.Button();
 			this.BtnExit = new System.Windows.Forms.Button();
+			this.TimerIdleWarning = new System.Windows.Forms.Timer(this.components);
+			this.TextInactivityWarning = new System.Windows.Forms.RichTextBox();
+			this.TimerIdleExit = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// label1
@@ -238,14 +242,35 @@
 			this.BtnExit.Name = "BtnExit";
 			this.BtnExit.Size = new System.Drawing.Size(182, 67);
 			this.BtnExit.TabIndex = 21;
-			this.BtnExit.Text = "Exit";
+			this.BtnExit.Text = "ÇIKIŞ";
 			this.BtnExit.UseVisualStyleBackColor = true;
+			this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
+			// 
+			// TimerIdleWarning
+			// 
+			this.TimerIdleWarning.Interval = 2500;
+			// 
+			// TextInactivityWarning
+			// 
+			this.TextInactivityWarning.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.TextInactivityWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.TextInactivityWarning.Location = new System.Drawing.Point(12, 426);
+			this.TextInactivityWarning.Name = "TextInactivityWarning";
+			this.TextInactivityWarning.ReadOnly = true;
+			this.TextInactivityWarning.Size = new System.Drawing.Size(431, 138);
+			this.TextInactivityWarning.TabIndex = 22;
+			this.TextInactivityWarning.Text = "\n";
+			// 
+			// TimerIdleExit
+			// 
+			this.TimerIdleExit.Interval = 2500;
 			// 
 			// AccountForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(887, 576);
+			this.Controls.Add(this.TextInactivityWarning);
 			this.Controls.Add(this.BtnExit);
 			this.Controls.Add(this.BtnEFT);
 			this.Controls.Add(this.TextAmountUsd);
@@ -294,5 +319,8 @@
 		private System.Windows.Forms.Label TextAmountUsd;
 		private System.Windows.Forms.Button BtnEFT;
 		private System.Windows.Forms.Button BtnExit;
+		private System.Windows.Forms.Timer TimerIdleWarning;
+		private System.Windows.Forms.RichTextBox TextInactivityWarning;
+		private System.Windows.Forms.Timer TimerIdleExit;
 	}
 }

@@ -35,11 +35,11 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.BtnSubmit = new System.Windows.Forms.Button();
 			this.BtnExit = new System.Windows.Forms.Button();
-			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+			this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
 			this.TextError = new System.Windows.Forms.TextBox();
 			this.LoginAttemptTimer = new System.Windows.Forms.Timer(this.components);
 			this.TextRemainingAttempt = new System.Windows.Forms.TextBox();
-			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// InputAccountId
@@ -99,9 +99,9 @@
 			this.BtnExit.UseVisualStyleBackColor = true;
 			this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
 			// 
-			// errorProvider1
+			// ErrorProvider
 			// 
-			this.errorProvider1.ContainerControl = this;
+			this.ErrorProvider.ContainerControl = this;
 			// 
 			// TextError
 			// 
@@ -146,7 +146,7 @@
 			this.Name = "LoginForm";
 			this.Text = "LoginForm";
 			this.Load += new System.EventHandler(this.LoginForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -160,7 +160,7 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button BtnSubmit;
 		private System.Windows.Forms.Button BtnExit;
-		private System.Windows.Forms.ErrorProvider errorProvider1;
+		private System.Windows.Forms.ErrorProvider ErrorProvider;
 		private System.Windows.Forms.TextBox TextError;
 		private System.Windows.Forms.Timer LoginAttemptTimer;
 		private System.Windows.Forms.TextBox TextRemainingAttempt;
