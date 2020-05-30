@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace _2018280067.Utils
 {
-	public static class CreateHashAndValidate
+	class CreateHashAndValidate
 	{   
-        public static bool CheckPassword(string source,string accountId)
+        public bool CheckPassword(string source,string accountId)
 		{
             using (SHA256 sha256Hash = SHA256.Create())
             {
@@ -29,7 +29,7 @@ namespace _2018280067.Utils
             }
 		}
 
-        private static string GetHash(HashAlgorithm hashAlgorithm, string input)
+        private string GetHash(HashAlgorithm hashAlgorithm, string input)
         {
 
             // Convert the input string to a byte array and compute the hash.
@@ -51,7 +51,7 @@ namespace _2018280067.Utils
         }
 
         // Verify a hash against a string.
-        private static bool VerifyHash(string generatedHash, string accountId)
+        private bool VerifyHash(string generatedHash, string accountId)
         {
             string hashFromDb = "";
             string[] lines = { };

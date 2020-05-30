@@ -38,7 +38,7 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
-			this.ComboBoxIbanUser = new System.Windows.Forms.ComboBox();
+			this.ComboBoxIbanSender = new System.Windows.Forms.ComboBox();
 			this.ComboBoxIbanReciever = new System.Windows.Forms.ComboBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.TextAmountOfMoney = new System.Windows.Forms.TextBox();
@@ -144,15 +144,15 @@
 			this.label7.TabIndex = 11;
 			this.label7.Text = "IBAN Seçiniz";
 			// 
-			// ComboBoxIbanUser
+			// ComboBoxIbanSender
 			// 
-			this.ComboBoxIbanUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.ComboBoxIbanUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ComboBoxIbanUser.FormattingEnabled = true;
-			this.ComboBoxIbanUser.Location = new System.Drawing.Point(479, 310);
-			this.ComboBoxIbanUser.Name = "ComboBoxIbanUser";
-			this.ComboBoxIbanUser.Size = new System.Drawing.Size(373, 28);
-			this.ComboBoxIbanUser.TabIndex = 12;
+			this.ComboBoxIbanSender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.ComboBoxIbanSender.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ComboBoxIbanSender.FormattingEnabled = true;
+			this.ComboBoxIbanSender.Location = new System.Drawing.Point(479, 310);
+			this.ComboBoxIbanSender.Name = "ComboBoxIbanSender";
+			this.ComboBoxIbanSender.Size = new System.Drawing.Size(373, 28);
+			this.ComboBoxIbanSender.TabIndex = 12;
 			// 
 			// ComboBoxIbanReciever
 			// 
@@ -282,7 +282,7 @@
 			this.Controls.Add(this.TextAmountOfMoney);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.ComboBoxIbanReciever);
-			this.Controls.Add(this.ComboBoxIbanUser);
+			this.Controls.Add(this.ComboBoxIbanSender);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label5);
@@ -311,7 +311,7 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.ComboBox ComboBoxIbanUser;
+		private System.Windows.Forms.ComboBox ComboBoxIbanSender;
 		private System.Windows.Forms.ComboBox ComboBoxIbanReciever;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.TextBox TextAmountOfMoney;

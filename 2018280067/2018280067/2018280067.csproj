@@ -50,6 +50,7 @@
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerList.cs" />
     <Compile Include="ExchangeRates.cs" />
+    <Compile Include="Utils\FileIO.cs" />
     <Compile Include="Forms\AccountForm.cs">
       <SubType>Form</SubType>
     </Compile>

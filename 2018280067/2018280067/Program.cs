@@ -19,8 +19,10 @@ namespace _2018280067
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			CreateTestData startupFunctions = new CreateTestData();
+			FileIO fileIO = new FileIO();
+
 			startupFunctions.CreateTestCustomers();
-			startupFunctions.ResetLockedAccounts();
+			fileIO.ResetLockedAccounts();
 
 			Application.Run(new LoginForm());
 		}

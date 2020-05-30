@@ -50,8 +50,8 @@ namespace _2018280067
 							item.MiktarIbanUsd = ConvertToDouble(lineArray[2]);
 						}
 					}
-
 				}
+				file.Close();
 			}
 			catch (Exception e)
 			{

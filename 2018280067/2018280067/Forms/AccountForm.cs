@@ -1,13 +1,4 @@
-﻿using _2018280067.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
 namespace _2018280067.Forms
@@ -22,8 +13,6 @@ namespace _2018280067.Forms
 
 	public partial class AccountForm : Form
 	{	
-		
-
 		public string AccountId { get; set; }
 		public Form LoginFormRef { get; set; }
 		private Customer CurrentUser { get; set; }
@@ -70,8 +59,20 @@ namespace _2018280067.Forms
 
 		private void StartEFT()
 		{
-			Debug.WriteLine($"sender: {SelectedSenderCurrency}");
-			Debug.WriteLine($"reciever: {SelectedRecieverCurrency}");
+			var moneyAmount = TextAmountOfMoney.Text;
+
+			if (SelectedSenderCurrency != SelectedRecieverCurrency)
+			{
+				MessageBox.Show("Need exchange");
+				return;
+			}
+
+			FileIO fileIO = new FileIO();
+			fileIO.UpdateIbanMoneyAmountOnTxt(ComboBoxIbanSender.Text, ComboBoxIbanReciever.Text, moneyAmount);
+			
+			CustomerList.UpdateCustomerListFromTxt();
+			CurrentUser = CustomerList.GetCustomerById(AccountId);
+			UpdateTextIban();
 		}
 
 		private bool CheckFormValidation()
@@ -86,7 +87,7 @@ namespace _2018280067.Forms
 				MessageBox.Show("Lutfen para göndermek istediğiniz IBAN seçiniz");
 				return false;
 			}
-			if (ComboBoxIbanUser.SelectedItem == null)
+			if (ComboBoxIbanSender.SelectedItem == null)
 			{
 				MessageBox.Show("Lutfen parayı göndermek istediğiniz kendi IBAN'ınız seçiniz");
 				return false;
@@ -109,7 +110,7 @@ namespace _2018280067.Forms
 				return false;
 			}
 
-			if (ComboBoxIbanUser.Text == CurrentUser.IbanTr)
+			if (ComboBoxIbanSender.Text == CurrentUser.IbanTr)
 			{
 				SelectedSenderCurrency = Currency.tr;
 				if(CurrentUser.MiktarIbanTr < money)
@@ -119,7 +120,7 @@ namespace _2018280067.Forms
 				}				
 			}
 
-			if (ComboBoxIbanUser.Text == CurrentUser.IbanEuro)
+			if (ComboBoxIbanSender.Text == CurrentUser.IbanEuro)
 			{
 				SelectedSenderCurrency = Currency.euro;
 				if (CurrentUser.MiktarIbanEuro < money)
@@ -129,7 +130,7 @@ namespace _2018280067.Forms
 				}
 			}
 
-			if (ComboBoxIbanUser.Text == CurrentUser.IbanUsd)
+			if (ComboBoxIbanSender.Text == CurrentUser.IbanUsd)
 			{
 				SelectedSenderCurrency = Currency.usd;
 				if (CurrentUser.MiktarIbanUsd < money)
@@ -145,11 +146,11 @@ namespace _2018280067.Forms
 		private void InitializeComboBoxes()
 		{
 			if (CurrentUser.IbanTr != null)
-				ComboBoxIbanUser.Items.Add(CurrentUser.IbanTr);
+				ComboBoxIbanSender.Items.Add(CurrentUser.IbanTr);
 			if (CurrentUser.IbanEuro != null)
-				ComboBoxIbanUser.Items.Add(CurrentUser.IbanEuro);
+				ComboBoxIbanSender.Items.Add(CurrentUser.IbanEuro);
 			if (CurrentUser.IbanUsd != null)
-				ComboBoxIbanUser.Items.Add(CurrentUser.IbanUsd);
+				ComboBoxIbanSender.Items.Add(CurrentUser.IbanUsd);
 
 			foreach (var item in CustomerList.Customers)
 			{

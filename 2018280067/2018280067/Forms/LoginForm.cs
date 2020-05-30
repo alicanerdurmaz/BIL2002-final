@@ -42,8 +42,9 @@ namespace _2018280067.Forms
 			if (InputAccountPassword.Text.Length < 1) return;
 
 			if(CheckAccountIsLocked(InputAccountId.Text)) return;
-		
-			bool result = CreateHashAndValidate.CheckPassword(InputAccountPassword.Text, InputAccountId.Text);
+
+			CreateHashAndValidate hashFunctions = new CreateHashAndValidate();
+			bool result = hashFunctions.CheckPassword(InputAccountPassword.Text, InputAccountId.Text);
 
 			if (!result)
 			{
