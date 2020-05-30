@@ -34,12 +34,12 @@
 			this.TextIbanTr = new System.Windows.Forms.Label();
 			this.TextIbanEuro = new System.Windows.Forms.Label();
 			this.TextIbanUsd = new System.Windows.Forms.Label();
-			this.ComboBoxPersons = new System.Windows.Forms.ComboBox();
+			this.ComboBoxRecievers = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.ComboBoxIbanUser = new System.Windows.Forms.ComboBox();
-			this.ComboBoxIbanOther = new System.Windows.Forms.ComboBox();
+			this.ComboBoxIbanReciever = new System.Windows.Forms.ComboBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.TextAmountOfMoney = new System.Windows.Forms.TextBox();
 			this.label9 = new System.Windows.Forms.Label();
@@ -102,17 +102,17 @@
 			this.TextIbanUsd.Size = new System.Drawing.Size(0, 25);
 			this.TextIbanUsd.TabIndex = 4;
 			// 
-			// ComboBoxPersons
+			// ComboBoxRecievers
 			// 
-			this.ComboBoxPersons.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.ComboBoxPersons.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.ComboBoxPersons.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ComboBoxPersons.FormattingEnabled = true;
-			this.ComboBoxPersons.Location = new System.Drawing.Point(481, 130);
-			this.ComboBoxPersons.Name = "ComboBoxPersons";
-			this.ComboBoxPersons.Size = new System.Drawing.Size(373, 28);
-			this.ComboBoxPersons.TabIndex = 8;
-			this.ComboBoxPersons.SelectedIndexChanged += new System.EventHandler(this.ComboBoxPersons_SelectedIndexChanged);
+			this.ComboBoxRecievers.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.ComboBoxRecievers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.ComboBoxRecievers.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ComboBoxRecievers.FormattingEnabled = true;
+			this.ComboBoxRecievers.Location = new System.Drawing.Point(481, 130);
+			this.ComboBoxRecievers.Name = "ComboBoxRecievers";
+			this.ComboBoxRecievers.Size = new System.Drawing.Size(373, 28);
+			this.ComboBoxRecievers.TabIndex = 8;
+			this.ComboBoxRecievers.SelectedIndexChanged += new System.EventHandler(this.ComboBoxPersons_SelectedIndexChanged);
 			// 
 			// label5
 			// 
@@ -154,16 +154,17 @@
 			this.ComboBoxIbanUser.Size = new System.Drawing.Size(373, 28);
 			this.ComboBoxIbanUser.TabIndex = 12;
 			// 
-			// ComboBoxIbanOther
+			// ComboBoxIbanReciever
 			// 
-			this.ComboBoxIbanOther.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.ComboBoxIbanOther.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.ComboBoxIbanOther.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ComboBoxIbanOther.FormattingEnabled = true;
-			this.ComboBoxIbanOther.Location = new System.Drawing.Point(479, 207);
-			this.ComboBoxIbanOther.Name = "ComboBoxIbanOther";
-			this.ComboBoxIbanOther.Size = new System.Drawing.Size(373, 28);
-			this.ComboBoxIbanOther.TabIndex = 13;
+			this.ComboBoxIbanReciever.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.ComboBoxIbanReciever.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.ComboBoxIbanReciever.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ComboBoxIbanReciever.FormattingEnabled = true;
+			this.ComboBoxIbanReciever.Location = new System.Drawing.Point(479, 207);
+			this.ComboBoxIbanReciever.Name = "ComboBoxIbanReciever";
+			this.ComboBoxIbanReciever.Size = new System.Drawing.Size(373, 28);
+			this.ComboBoxIbanReciever.TabIndex = 13;
+			this.ComboBoxIbanReciever.SelectedIndexChanged += new System.EventHandler(this.ComboBoxIbanReciever_SelectedIndexChanged);
 			// 
 			// label8
 			// 
@@ -233,6 +234,7 @@
 			this.BtnEFT.TabIndex = 20;
 			this.BtnEFT.Text = "EFT YAP";
 			this.BtnEFT.UseVisualStyleBackColor = true;
+			this.BtnEFT.Click += new System.EventHandler(this.BtnEFT_Click);
 			// 
 			// BtnExit
 			// 
@@ -248,7 +250,7 @@
 			// 
 			// TimerIdleWarning
 			// 
-			this.TimerIdleWarning.Interval = 2500;
+			this.TimerIdleWarning.Interval = 240000;
 			// 
 			// TextInactivityWarning
 			// 
@@ -263,7 +265,7 @@
 			// 
 			// TimerIdleExit
 			// 
-			this.TimerIdleExit.Interval = 2500;
+			this.TimerIdleExit.Interval = 60000;
 			// 
 			// AccountForm
 			// 
@@ -279,12 +281,12 @@
 			this.Controls.Add(this.label9);
 			this.Controls.Add(this.TextAmountOfMoney);
 			this.Controls.Add(this.label8);
-			this.Controls.Add(this.ComboBoxIbanOther);
+			this.Controls.Add(this.ComboBoxIbanReciever);
 			this.Controls.Add(this.ComboBoxIbanUser);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label5);
-			this.Controls.Add(this.ComboBoxPersons);
+			this.Controls.Add(this.ComboBoxRecievers);
 			this.Controls.Add(this.TextIbanUsd);
 			this.Controls.Add(this.TextIbanEuro);
 			this.Controls.Add(this.TextIbanTr);
@@ -305,12 +307,12 @@
 		private System.Windows.Forms.Label TextIbanTr;
 		private System.Windows.Forms.Label TextIbanEuro;
 		private System.Windows.Forms.Label TextIbanUsd;
-		private System.Windows.Forms.ComboBox ComboBoxPersons;
+		private System.Windows.Forms.ComboBox ComboBoxRecievers;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.ComboBox ComboBoxIbanUser;
-		private System.Windows.Forms.ComboBox ComboBoxIbanOther;
+		private System.Windows.Forms.ComboBox ComboBoxIbanReciever;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.TextBox TextAmountOfMoney;
 		private System.Windows.Forms.Label label9;

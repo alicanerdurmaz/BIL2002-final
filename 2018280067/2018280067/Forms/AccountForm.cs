@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _2018280067.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,16 +12,28 @@ using System.Windows.Forms;
 
 namespace _2018280067.Forms
 {
+	enum Currency
+	{	
+		none,
+		tr,
+		euro,
+		usd,
+	}
+
 	public partial class AccountForm : Form
-	{
+	{	
+		
+
 		public string AccountId { get; set; }
 		public Form LoginFormRef { get; set; }
 		private Customer CurrentUser { get; set; }
+		private Currency SelectedSenderCurrency { get; set; }
+		private Currency SelectedRecieverCurrency { get; set; }
 
 		public AccountForm()
-		{
+		{	
 			InitializeComponent();
-
+			
 			FormClosed += AccountForm_FormClosed;
 			MouseMove += new MouseEventHandler(AccountForm_MouseMove);
 
@@ -40,7 +53,93 @@ namespace _2018280067.Forms
 
 			InitializeComboBoxes();
 			UpdateTextIban();
+		}
 
+		private void BtnEFT_Click(object sender, EventArgs e)
+		{
+			if (!CheckFormValidation()) return;
+			
+			CustomerList.UpdateCustomerListFromTxt();
+			CurrentUser = CustomerList.GetCustomerById(AccountId);
+
+			if (!CheckBalanceIsAvailable()) return;
+
+			StartEFT();
+
+		}
+
+		private void StartEFT()
+		{
+			Debug.WriteLine($"sender: {SelectedSenderCurrency}");
+			Debug.WriteLine($"reciever: {SelectedRecieverCurrency}");
+		}
+
+		private bool CheckFormValidation()
+		{
+			if (ComboBoxRecievers.SelectedItem == null)
+			{
+				MessageBox.Show("Lutfen para göndermek istediğiniz kişiyi seçiniz");
+				return false;
+			}
+			if (ComboBoxIbanReciever.SelectedItem == null)
+			{
+				MessageBox.Show("Lutfen para göndermek istediğiniz IBAN seçiniz");
+				return false;
+			}
+			if (ComboBoxIbanUser.SelectedItem == null)
+			{
+				MessageBox.Show("Lutfen parayı göndermek istediğiniz kendi IBAN'ınız seçiniz");
+				return false;
+			}
+		
+			return true;
+		}
+
+		private bool CheckBalanceIsAvailable()
+		{
+			double money = 0;
+			try
+			{
+				
+				money = Double.Parse(TextAmountOfMoney.Text);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+				return false;
+			}
+
+			if (ComboBoxIbanUser.Text == CurrentUser.IbanTr)
+			{
+				SelectedSenderCurrency = Currency.tr;
+				if(CurrentUser.MiktarIbanTr < money)
+				{
+					MessageBox.Show($"Bakiyeniz Uygun değil. bakiye: {CurrentUser.MiktarIbanTr}");
+					return false;
+				}				
+			}
+
+			if (ComboBoxIbanUser.Text == CurrentUser.IbanEuro)
+			{
+				SelectedSenderCurrency = Currency.euro;
+				if (CurrentUser.MiktarIbanEuro < money)
+				{
+					MessageBox.Show($"Bakiyeniz Uygun değil. bakiye: {CurrentUser.MiktarIbanEuro}");
+					return false;
+				}
+			}
+
+			if (ComboBoxIbanUser.Text == CurrentUser.IbanUsd)
+			{
+				SelectedSenderCurrency = Currency.usd;
+				if (CurrentUser.MiktarIbanUsd < money)
+				{
+					MessageBox.Show($"Bakiyeniz Uygun değil. bakiye: {CurrentUser.MiktarIbanUsd}");
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		private void InitializeComboBoxes()
@@ -54,16 +153,15 @@ namespace _2018280067.Forms
 
 			foreach (var item in CustomerList.Customers)
 			{
-				if(item.HesapNo != CurrentUser.HesapNo)
+				if (item.HesapNo != CurrentUser.HesapNo)
 				{
-					ComboBoxPersons.Items.Add(item.AdSoyad);
-				}		
+					ComboBoxRecievers.Items.Add(item.AdSoyad);
+				}
 			}
 		}
 
 		private void UpdateTextIban()
 		{
-
 			if (CurrentUser.IbanTr != null)
 			{
 				TextIbanTr.Text = $"IBAN: {CurrentUser.IbanTr}";
@@ -73,7 +171,7 @@ namespace _2018280067.Forms
 			if (CurrentUser.IbanEuro != null)
 			{
 				TextIbanEuro.Text = $"IBAN: {CurrentUser.IbanEuro}";
-				TextAmountEur.Text = $"{CurrentUser.MiktarIbanEuro} EUR";
+				TextAmountEur.Text = $"{CurrentUser.MiktarIbanEuro} EURO";
 			}
 
 			if (CurrentUser.IbanUsd != null)
@@ -87,25 +185,38 @@ namespace _2018280067.Forms
 		{
 			// Para gönderilecek IBAN ComboBox'ı güncelle.
 
-			ComboBoxIbanOther.Items.Clear();
-			var selectedUser = ComboBoxPersons.SelectedItem.ToString();
-		
+			ComboBoxIbanReciever.Items.Clear();
+			var selectedReciever = ComboBoxRecievers.SelectedItem.ToString();
+
 			foreach (var item in CustomerList.Customers)
 			{
-				if (String.Compare(selectedUser, item.AdSoyad, true) == 0)
+				if (String.Compare(selectedReciever, item.AdSoyad, true) == 0)
 				{
 					if (item.IbanTr != null)
-						ComboBoxIbanOther.Items.Add(item.IbanTr);
+						ComboBoxIbanReciever.Items.Add(item.IbanTr);
 					if (item.IbanEuro != null)
-						ComboBoxIbanOther.Items.Add(item.IbanEuro);
+						ComboBoxIbanReciever.Items.Add(item.IbanEuro);
 					if (item.IbanUsd != null)
-						ComboBoxIbanOther.Items.Add(item.IbanUsd);
+						ComboBoxIbanReciever.Items.Add(item.IbanUsd);
 				}
 			}
 		}
 
+		// When user select IBAN reciever, find that IBAN currency and save.
+		private void ComboBoxIbanReciever_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var selectedIbanReciever = ComboBoxIbanReciever.SelectedItem.ToString();
+			foreach (var item in CustomerList.Customers)
+			{
+				if (String.Compare(selectedIbanReciever, item.IbanTr, true) == 0)
+					SelectedRecieverCurrency = Currency.tr;
+				if (String.Compare(selectedIbanReciever, item.IbanEuro, true) == 0)
+					SelectedRecieverCurrency = Currency.euro;
+				if (String.Compare(selectedIbanReciever, item.IbanUsd, true) == 0)
+					SelectedRecieverCurrency = Currency.usd;
+			}
+		}
 
-	
 		private void AccountForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Application.Exit();
@@ -113,7 +224,7 @@ namespace _2018280067.Forms
 
 		private void BtnExit_Click(object sender, EventArgs e)
 		{
-			Application.Exit();
+			ReturnToLoginForm();
 		}
 
 		// User Inactivity Detect 
@@ -138,7 +249,11 @@ namespace _2018280067.Forms
 		{
 			TimerIdleWarning.Stop();
 			TimerIdleExit.Stop();
+			ReturnToLoginForm();
 
+		}
+		private void ReturnToLoginForm()
+		{
 			FormClosed -= AccountForm_FormClosed;
 			MouseMove -= new MouseEventHandler(AccountForm_MouseMove);
 			TimerIdleWarning.Tick -= TimerIdleWarningDone;
@@ -148,5 +263,6 @@ namespace _2018280067.Forms
 			LoginFormRef.Show();
 			this.Hide();
 		}
+
 	}
 }
