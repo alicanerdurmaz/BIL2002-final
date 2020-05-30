@@ -50,6 +50,12 @@
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerList.cs" />
     <Compile Include="ExchangeRates.cs" />
+    <Compile Include="Forms\AccountForm.Inactivity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AccountForm.Utils.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Utils\FileIO.cs" />
     <Compile Include="Forms\AccountForm.cs">
       <SubType>Form</SubType>

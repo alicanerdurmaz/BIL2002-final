@@ -10,9 +10,8 @@ namespace _2018280067
 {
 	class FileIO
 	{
-		public string UpdateIbanMoneyAmountOnTxt(string senderIban, string recieverIban, string stringMoneyAmount)
+		public string UpdateIbanMoneyAmountOnTxt(string senderIban, string recieverIban,double senderMoneyAmount, double recieverMoneyAmount)
 		{
-			double moneyAmount = ConvertToDouble(stringMoneyAmount);
 			string line;
 			var lineArray = new List<string[]>();
 
@@ -41,13 +40,13 @@ namespace _2018280067
 						if (String.Compare(item[1], senderIban, true) == 0)
 						{
 							double ibanMoney = ConvertToDouble(item[2]);
-							ibanMoney -= moneyAmount;
+							ibanMoney -= senderMoneyAmount;
 							item[2] = ibanMoney.ToString();
 						}
 						if (String.Compare(item[1], recieverIban, true) == 0)
 						{
 							double ibanMoney = ConvertToDouble(item[2]);
-							ibanMoney += moneyAmount;
+							ibanMoney += recieverMoneyAmount;
 							item[2] = ibanMoney.ToString();
 						}
 						file.WriteLine($"{item[0]},{item[1]},{item[2]}");

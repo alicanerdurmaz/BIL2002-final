@@ -11,7 +11,7 @@ namespace _2018280067
 		public ExchangeRate()
 		{
 			this.Add("USD", 7.1094);
-			this.Add("EUR", 7.9283);
+			this.Add("EURO", 7.9283);
 		}
 	}
 }

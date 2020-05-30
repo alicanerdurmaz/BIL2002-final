@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace _2018280067.Forms
@@ -54,93 +55,48 @@ namespace _2018280067.Forms
 			if (!CheckBalanceIsAvailable()) return;
 
 			StartEFT();
-
 		}
 
 		private void StartEFT()
 		{
-			var moneyAmount = TextAmountOfMoney.Text;
+			double senderMoneyAmount = 0;
+			double recieverMoneyAmount = 0;
 
-			if (SelectedSenderCurrency != SelectedRecieverCurrency)
+			double.TryParse(TextAmountOfMoney.Text, out senderMoneyAmount);
+			double.TryParse(TextAmountOfMoney.Text, out recieverMoneyAmount);
+
+			var exchangeRates = new ExchangeRate();
+
+			if (SelectedSenderCurrency == Currency.tr && SelectedRecieverCurrency == Currency.euro)
+				recieverMoneyAmount /= exchangeRates["EURO"];
+			
+			if (SelectedSenderCurrency == Currency.tr && SelectedRecieverCurrency == Currency.usd)
+				recieverMoneyAmount /= exchangeRates["USD"];
+
+			if (SelectedSenderCurrency == Currency.usd && SelectedRecieverCurrency == Currency.tr)
+				recieverMoneyAmount *= exchangeRates["USD"];
+
+			if(SelectedSenderCurrency == Currency.usd && SelectedRecieverCurrency == Currency.euro)
 			{
-				MessageBox.Show("Need exchange");
-				return;
+				recieverMoneyAmount /= exchangeRates["USD"];
+				recieverMoneyAmount *= exchangeRates["EURO"];
+			}
+
+			if (SelectedSenderCurrency == Currency.euro && SelectedRecieverCurrency == Currency.tr)
+				recieverMoneyAmount *= exchangeRates["EURO"];
+
+			if (SelectedSenderCurrency == Currency.euro && SelectedRecieverCurrency == Currency.usd)
+			{
+				recieverMoneyAmount /= exchangeRates["EURO"];
+				recieverMoneyAmount *= exchangeRates["USD"];
 			}
 
 			FileIO fileIO = new FileIO();
-			fileIO.UpdateIbanMoneyAmountOnTxt(ComboBoxIbanSender.Text, ComboBoxIbanReciever.Text, moneyAmount);
+			fileIO.UpdateIbanMoneyAmountOnTxt(ComboBoxIbanSender.Text, ComboBoxIbanReciever.Text, senderMoneyAmount,recieverMoneyAmount);
 			
 			CustomerList.UpdateCustomerListFromTxt();
 			CurrentUser = CustomerList.GetCustomerById(AccountId);
 			UpdateTextIban();
-		}
-
-		private bool CheckFormValidation()
-		{
-			if (ComboBoxRecievers.SelectedItem == null)
-			{
-				MessageBox.Show("Lutfen para göndermek istediğiniz kişiyi seçiniz");
-				return false;
-			}
-			if (ComboBoxIbanReciever.SelectedItem == null)
-			{
-				MessageBox.Show("Lutfen para göndermek istediğiniz IBAN seçiniz");
-				return false;
-			}
-			if (ComboBoxIbanSender.SelectedItem == null)
-			{
-				MessageBox.Show("Lutfen parayı göndermek istediğiniz kendi IBAN'ınız seçiniz");
-				return false;
-			}
-		
-			return true;
-		}
-
-		private bool CheckBalanceIsAvailable()
-		{
-			double money = 0;
-			try
-			{
-				
-				money = Double.Parse(TextAmountOfMoney.Text);
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show(e.Message);
-				return false;
-			}
-
-			if (ComboBoxIbanSender.Text == CurrentUser.IbanTr)
-			{
-				SelectedSenderCurrency = Currency.tr;
-				if(CurrentUser.MiktarIbanTr < money)
-				{
-					MessageBox.Show($"Bakiyeniz Uygun değil. bakiye: {CurrentUser.MiktarIbanTr}");
-					return false;
-				}				
-			}
-
-			if (ComboBoxIbanSender.Text == CurrentUser.IbanEuro)
-			{
-				SelectedSenderCurrency = Currency.euro;
-				if (CurrentUser.MiktarIbanEuro < money)
-				{
-					MessageBox.Show($"Bakiyeniz Uygun değil. bakiye: {CurrentUser.MiktarIbanEuro}");
-					return false;
-				}
-			}
-
-			if (ComboBoxIbanSender.Text == CurrentUser.IbanUsd)
-			{
-				SelectedSenderCurrency = Currency.usd;
-				if (CurrentUser.MiktarIbanUsd < money)
-				{
-					MessageBox.Show($"Bakiyeniz Uygun değil. bakiye: {CurrentUser.MiktarIbanUsd}");
-					return false;
-				}
-			}
-
-			return true;
 		}
 
 		private void InitializeComboBoxes()
@@ -217,53 +173,5 @@ namespace _2018280067.Forms
 					SelectedRecieverCurrency = Currency.usd;
 			}
 		}
-
-		private void AccountForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			Application.Exit();
-		}
-
-		private void BtnExit_Click(object sender, EventArgs e)
-		{
-			ReturnToLoginForm();
-		}
-
-		// User Inactivity Detect 
-		private void AccountForm_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			TextInactivityWarning.Text = "";
-			TimerIdleWarning.Stop();
-			TimerIdleWarning.Start();
-			TimerIdleExit.Stop();
-		}
-		// User Inactivity Warning
-		private void TimerIdleWarningDone(object sender, EventArgs e)
-		{
-			TimerIdleWarning.Stop();
-			TimerIdleExit.Start();
-			TextInactivityWarning.Text = "GÜVENLİK UYARISI !";
-			TextInactivityWarning.Text += Environment.NewLine;
-			TextInactivityWarning.Text += "4 Dakikadır herhangi bir işlem yapmadınız. Güvenlik nedeni ile 60 saniye içinde oturumunuz kapanacak.";
-		}
-		// User Inactivity Timer end, handle shutdown form. 
-		private void TimerIdleExitDone(object sender, EventArgs e)
-		{
-			TimerIdleWarning.Stop();
-			TimerIdleExit.Stop();
-			ReturnToLoginForm();
-
-		}
-		private void ReturnToLoginForm()
-		{
-			FormClosed -= AccountForm_FormClosed;
-			MouseMove -= new MouseEventHandler(AccountForm_MouseMove);
-			TimerIdleWarning.Tick -= TimerIdleWarningDone;
-			TimerIdleExit.Tick -= TimerIdleExitDone;
-
-			MessageBox.Show("Güvenlik nedeni ile oturumunuz kapatıdı.");
-			LoginFormRef.Show();
-			this.Hide();
-		}
-
 	}
 }
