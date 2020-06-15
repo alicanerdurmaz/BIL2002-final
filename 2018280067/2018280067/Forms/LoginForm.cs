@@ -28,16 +28,6 @@ namespace _2018280067.Forms
 		private void BtnSubmit_Click(object sender, EventArgs e)
 		{
 
-			AccountForm accountForm = new AccountForm();
-			InputAccountId.Text = "326785";
-			accountForm.AccountId = InputAccountId.Text;
-			accountForm.LoginFormRef = this;
-			accountForm.Show();
-			
-			this.Hide();
-
-			return;
-
 			if (InputAccountId.Text.Length < 1) return;
 			if (InputAccountPassword.Text.Length < 1) return;
 
@@ -73,12 +63,14 @@ namespace _2018280067.Forms
 				loginAttemptCount = 0;
 				LoginAttemptTimer.Stop();
 
-				//using (AccountForm accountForm = new AccountForm())
-				//{
-				//	accountForm.Show();
-				//	accountForm.UserId = InputAccountId.Text;
-				//}	
-				//this.Hide();
+				AccountForm accountForm = new AccountForm
+				{
+					AccountId = InputAccountId.Text,
+					LoginFormRef = this
+				};
+				accountForm.Show();
+				this.Hide();
+
 			}
 		}
 

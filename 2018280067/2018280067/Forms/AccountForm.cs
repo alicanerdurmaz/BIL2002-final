@@ -59,11 +59,8 @@ namespace _2018280067.Forms
 
 		private void StartEFT()
 		{
-			double senderMoneyAmount = 0;
-			double recieverMoneyAmount = 0;
-
-			double.TryParse(TextAmountOfMoney.Text, out senderMoneyAmount);
-			double.TryParse(TextAmountOfMoney.Text, out recieverMoneyAmount);
+			double.TryParse(TextAmountOfMoney.Text, out double senderMoneyAmount);
+			double.TryParse(TextAmountOfMoney.Text, out double recieverMoneyAmount);
 
 			var exchangeRates = new ExchangeRate();
 
@@ -97,6 +94,7 @@ namespace _2018280067.Forms
 			CustomerList.UpdateCustomerListFromTxt();
 			CurrentUser = CustomerList.GetCustomerById(AccountId);
 			UpdateTextIban();
+			MessageBox.Show("Eft basari ile gerceklesti");
 		}
 
 		private void InitializeComboBoxes()
