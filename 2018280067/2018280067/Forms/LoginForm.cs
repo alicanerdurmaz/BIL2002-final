@@ -18,7 +18,6 @@ namespace _2018280067.Forms
 			InitializeComponent();
 		}
 
-	
 		private void LoginForm_Load(object sender, EventArgs e)
 		{
 			TextError.Visible = false;
@@ -78,7 +77,6 @@ namespace _2018280067.Forms
 		{
 			bool result =
 				   InputAccountPassword.Text.All(c => char.IsLetter(c) || char.IsDigit(c));
-		
 
 			if (!result)
 			{

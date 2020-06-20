@@ -89,8 +89,13 @@ namespace _2018280067.Forms
 			}
 
 			FileIO fileIO = new FileIO();
-			fileIO.UpdateIbanMoneyAmountOnTxt(ComboBoxIbanSender.Text, ComboBoxIbanReciever.Text, senderMoneyAmount,recieverMoneyAmount);
-			
+			var eftError = fileIO.UpdateIbanMoneyAmountOnTxt(ComboBoxIbanSender.Text, ComboBoxIbanReciever.Text, senderMoneyAmount,recieverMoneyAmount);
+			if (eftError != null)
+			{
+				MessageBox.Show("Isleminizi su an da gerceklestiremiyoruz. Lutfen daha sonra tekrar deneyiniz\n" + eftError);
+				return;
+			}
+
 			CustomerList.UpdateCustomerListFromTxt();
 			CurrentUser = CustomerList.GetCustomerById(AccountId);
 			UpdateTextIban();

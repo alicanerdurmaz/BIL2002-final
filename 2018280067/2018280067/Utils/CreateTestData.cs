@@ -32,6 +32,11 @@ namespace _2018280067
 
 		private void CreateClientTxt()
 		{
+			if (!Directory.Exists(@"C:\final"))
+			{
+				Directory.CreateDirectory(@"C:\final");
+			}
+
 			try
 			{
 				using (StreamWriter file =
