@@ -34,7 +34,14 @@ namespace _2018280067
 		{
 			if (!Directory.Exists(@"C:\final"))
 			{
-				Directory.CreateDirectory(@"C:\final");
+				try
+				{
+					Directory.CreateDirectory(@"C:\final");
+				}
+				catch (Exception error)
+				{
+					Debug.WriteLine(error.Message);
+				}
 			}
 
 			try
