@@ -23,9 +23,13 @@ namespace _2018280067.Forms
 		public AccountForm()
 		{	
 			InitializeComponent();
-			
+
+			KeyPreview = true;
+
 			FormClosed += AccountForm_FormClosed;
 			MouseMove += new MouseEventHandler(AccountForm_MouseMove);
+			KeyDown += new KeyEventHandler(AccountForm_KeyDown);
+		
 
 			TimerIdleWarning.Start();
 			TimerIdleWarning.Tick += TimerIdleWarningDone;

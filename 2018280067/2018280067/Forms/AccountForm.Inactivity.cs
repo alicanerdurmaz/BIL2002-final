@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace _2018280067.Forms
 {
@@ -10,7 +12,16 @@ namespace _2018280067.Forms
 	{
 
 		// User Inactivity Detect 
-		private void AccountForm_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void AccountForm_MouseMove(object sender, MouseEventArgs e)
+		{
+			ResetTimer();
+		}
+
+		private void AccountForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			ResetTimer();
+		}
+		private void ResetTimer()
 		{
 			TextInactivityWarning.Text = "";
 			TimerIdleWarning.Stop();
